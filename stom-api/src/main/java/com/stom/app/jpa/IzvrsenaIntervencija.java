@@ -2,6 +2,11 @@ package com.stom.app.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.stom.audit.Auditable;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,7 +18,8 @@ import java.util.Date;
 @Entity
 @Table(name="izvrsena_intervencija")
 @NamedQuery(name="IzvrsenaIntervencija.findAll", query="SELECT i FROM IzvrsenaIntervencija i")
-public class IzvrsenaIntervencija implements Serializable {
+@EntityListeners(AuditingEntityListener.class)
+public class IzvrsenaIntervencija extends Auditable<String> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
