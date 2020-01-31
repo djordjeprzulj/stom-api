@@ -1,14 +1,11 @@
 package com.stom.app.jpa;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
