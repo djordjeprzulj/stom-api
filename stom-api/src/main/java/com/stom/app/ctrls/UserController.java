@@ -43,10 +43,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<?> createUser(@RequestBody User user){
-		user = userService.saveOrUpdate(user);
-		
-		return new ResponseEntity<>(user,HttpStatus.OK);
+	public ResponseEntity<?> createUser(@RequestBody User user) {
+		User existingUsername = userService.findByUsername(user.getUsername());
+		if (existingUsername == null) {
+			if (user.getPassword().length() < 8) {
+				return new ResponseEntity<>("Password must be 8 character or longer.", HttpStatus.BAD_REQUEST);
+			}
+			user = userService.saveOrUpdate(user);	
+			return new ResponseEntity<>(user, HttpStatus.OK);			
+		} else {
+			return new ResponseEntity<>("User with specified username already exists.", HttpStatus.CONFLICT);
+		}
 	}
 	
 	@DeleteMapping("/{userID}")

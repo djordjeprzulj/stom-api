@@ -16,10 +16,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtTokenProvider {
+	
 	private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 	
 	@Value("${app.jwtSecret}")
     private String jwtSecret;
+	
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 

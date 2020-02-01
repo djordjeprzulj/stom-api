@@ -11,7 +11,7 @@ import com.stom.app.jpa.User;
 import com.stom.app.reps.UserRepository;
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -40,10 +40,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User saveOrUpdate(User user) {
 		
-		 if(user.getPassword() != null){
-	            user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));
-	        }
-	        return userRepository.save(user);
+		 if(user.getPassword() != null) {
+			 user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));
+	     }
+	     return userRepository.save(user);
 	}
 
 	@Override

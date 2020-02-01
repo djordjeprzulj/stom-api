@@ -9,6 +9,7 @@ import com.stom.audit.AuditorAwareImpl;
 
 @Configuration
 public class CommonBeanConfig {
+	
     @Bean
     public AuditorAware<String> auditorAware() {
         return new AuditorAwareImpl();

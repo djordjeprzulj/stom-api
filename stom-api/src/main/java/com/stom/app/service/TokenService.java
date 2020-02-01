@@ -11,10 +11,8 @@ import com.stom.app.security.JwtTokenProvider;
 @Service
 public class TokenService {
 	
-	
 	@Autowired
 	JwtTokenProvider tokenProvider;
-	
 	
 	public Long extractUserIdFromAuthorizationHeader(String authorizationHeader) {
 		String token = authorizationHeader.split(" ")[1];
