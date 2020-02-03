@@ -41,6 +41,10 @@ public class VrstaIntervencije implements Serializable {
 	@JoinColumn(name="status_zuba")
 	private Status status;
 
+	@ManyToOne
+	@JoinColumn(name="grupa_intervencija")
+	private GrupaIntervencija grupaIntervencija;
+	
 	public VrstaIntervencije() {
 	}
 
@@ -119,5 +123,15 @@ public class VrstaIntervencije implements Serializable {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
+	public GrupaIntervencija getGrupaIntervencija() {
+		return grupaIntervencija;
+	}
+
+	public void setGrupaIntervencija(GrupaIntervencija grupaIntervencija) {
+		this.grupaIntervencija = grupaIntervencija;
+	}
+	
+	
 
 }
