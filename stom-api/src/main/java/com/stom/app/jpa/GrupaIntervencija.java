@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class GrupaIntervencija {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(nullable=false)
