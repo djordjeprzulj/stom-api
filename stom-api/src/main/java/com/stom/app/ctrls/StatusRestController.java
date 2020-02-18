@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,9 @@ public class StatusRestController {
 	@Autowired
 	private StatusRepository statusRepository;
 	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
 	@GetMapping
 	public Collection<Status> getAll() {
 		return statusRepository.findAll();
@@ -39,9 +43,6 @@ public class StatusRestController {
 		
 	@PostMapping
     public ResponseEntity<Void> insertStatus(@RequestBody Status obj) {
-        if (statusRepository.existsById(obj.getId())) {
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
 		statusRepository.save(obj);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

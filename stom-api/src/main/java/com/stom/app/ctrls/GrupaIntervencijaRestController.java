@@ -44,9 +44,6 @@ public class GrupaIntervencijaRestController {
 	
 	@PostMapping
 	public ResponseEntity<Void> insertGrupaIntervencija(@RequestBody GrupaIntervencija obj) {
-		if (grupaIntervencijaRepository.existsById(obj.getId())) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
 		grupaIntervencijaRepository.save(obj);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
