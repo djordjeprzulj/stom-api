@@ -36,15 +36,6 @@ public class GrupaIntervencijaRestController {
 		return grupaIntervencijaRepository.findAll();
 	}
 	
-	@GetMapping(value = "/NextId")
-	public int getNextId() {
-		Integer sledeci = jdbcTemplate.queryForObject("SELECT max(id)+1 "
-													+ "FROM grupa_intervencija", Integer.class);
-		if (sledeci == null)
-			sledeci = new Integer(1);
-		return sledeci.intValue();
-	}
-	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Void> get(@PathVariable("id") int id) {
 		Optional<GrupaIntervencija> obj = grupaIntervencijaRepository.findById(id);
@@ -53,9 +44,6 @@ public class GrupaIntervencijaRestController {
 	
 	@PostMapping
 	public ResponseEntity<Void> insertGrupaIntervencija(@RequestBody GrupaIntervencija obj) {
-		if (grupaIntervencijaRepository.existsById(obj.getId())) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
 		grupaIntervencijaRepository.save(obj);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

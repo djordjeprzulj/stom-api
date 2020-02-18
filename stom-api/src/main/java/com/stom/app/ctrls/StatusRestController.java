@@ -35,15 +35,6 @@ public class StatusRestController {
 		return statusRepository.findAll();
 	}
 	
-	@GetMapping(value = "NextId")
-	public int getNextId() {
-		Integer sledeci = jdbcTemplate.queryForObject("SELECT max(id)+1 "
-													+ "FROM status", Integer.class);
-		if(sledeci == null)
-			sledeci = new Integer(1);
-		return sledeci.intValue();
-	}
-	
 	@GetMapping(value = "/{id}")
     public ResponseEntity<Status> get(@PathVariable("id") int id) {
         Optional<Status> obj = statusRepository.findById(id);
@@ -52,9 +43,6 @@ public class StatusRestController {
 		
 	@PostMapping
     public ResponseEntity<Void> insertStatus(@RequestBody Status obj) {
-        if (statusRepository.existsById(obj.getId())) {
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
 		statusRepository.save(obj);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
