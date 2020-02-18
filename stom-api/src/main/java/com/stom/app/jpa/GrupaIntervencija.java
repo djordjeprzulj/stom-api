@@ -13,8 +13,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class GrupaIntervencija {
-
+	
+	
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private Integer id;
 	
 	@Column(nullable=false)
