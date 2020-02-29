@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stom.app.jpa.GrupaIntervencija;
 import com.stom.app.reps.GrupaIntervencijaRepository;
+import com.stom.app.reps.VrstaIntervencijeRepository;
 
 @RestController
 @CrossOrigin
@@ -62,7 +63,6 @@ public class GrupaIntervencijaRestController {
 		if(!grupaIntervencijaRepository.existsById(id)) {
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
-		jdbcTemplate.execute("delete from vrsta_intervencije where grupa_intervencija = "+id);
 		grupaIntervencijaRepository.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
