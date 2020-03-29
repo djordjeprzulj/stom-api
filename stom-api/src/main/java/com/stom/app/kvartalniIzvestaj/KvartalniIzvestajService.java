@@ -1,16 +1,32 @@
 package com.stom.app.kvartalniIzvestaj;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class KvartalniIzvestajService implements KvartalniIzvestajInterface{
@@ -190,6 +206,43 @@ public class KvartalniIzvestajService implements KvartalniIzvestajInterface{
 		connection.close();
 		
 		return kvartalniIzvestaj;
+	}
+	
+	public List<KvartalniIzvestajStavka> getList(){
+		List<KvartalniIzvestajStavka> lista = new ArrayList<KvartalniIzvestajStavka>();
+		lista.add(new KvartalniIzvestajStavka("Posete-ukupno",kvartalniIzvestaj.getPoseteUkupno().getPredskolskaDeca(), kvartalniIzvestaj.getPoseteUkupno().getOmladina(),kvartalniIzvestaj.getPoseteUkupno().getOstali(), kvartalniIzvestaj.getPoseteUkupno().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Prve posete",kvartalniIzvestaj.getPrvePosete().getPredskolskaDeca(), kvartalniIzvestaj.getPrvePosete().getOmladina(),kvartalniIzvestaj.getPrvePosete().getOstali(), kvartalniIzvestaj.getPrvePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Serijske posete",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Plombirani zubi - bez lecenja",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Plombirani zubi - sa lecenjem",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Hirurske intervencije - vadjenje",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Hirurske intervencije - ostalo",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Pokretne proteze - totalne",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Pokretne proteze - parcijalne",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Fiksne proteze - krunice",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Fiksne proteze - clanovi",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Ortodoncija - prvi pregledi",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Ortodoncija - terapeutske intervencije",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Ortodoncija - pokretni aparati",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Ortodoncija - fiksni aparati",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		lista.add(new KvartalniIzvestajStavka("Lecenje mekih tkiva usne supljine",kvartalniIzvestaj.getSerijskePosete().getPredskolskaDeca(), kvartalniIzvestaj.getSerijskePosete().getOmladina(),kvartalniIzvestaj.getSerijskePosete().getOstali(), kvartalniIzvestaj.getSerijskePosete().getUkupno()));
+		return lista;
+	}
+	public String generatePDF(KvartalniIzvestaj kvartalniIzvestaj) throws FileNotFoundException, JRException {
+		
+		Collection<KvartalniIzvestajStavka> niz = getList();
+		String path = "C://Users//marko//Desktop//";
+		File file = ResourceUtils.getFile("classpath:pdfTemplate.jrxml");
+		JasperReport jasper = JasperCompileManager.compileReport(file.getAbsolutePath());
+		                       
+		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(niz);
+		Map<String,Object> parameters = new HashMap<String,Object>();
+		
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper, parameters, ds);
+		JasperExportManager.exportReportToPdfFile(jasperPrint, path + "//kvartalniIzvestaj.pdf");
+		
+		return "path: "+path;		
+		
 	}
 
 }
